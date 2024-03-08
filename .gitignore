@@ -8,4 +8,5 @@ datasets/*
 
 !datasets/README.md
 scratchpad.ipynb
+llamafile
 llama.log
