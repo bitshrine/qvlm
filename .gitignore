@@ -1,0 +1,11 @@
+.DS_Store
+__pycache__
+.venv
+
+img
+datasets/*
+*.gguf
+
+!datasets/README.md
+scratchpad.ipynb
+llama.log
