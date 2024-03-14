@@ -15,15 +15,13 @@ class LlamafileConnector(Connector):
 
         self.prompt_format = prompt_format
 
-    def completion(self, prompt: str, image_data: list = None, args: dict = None) -> str:
+    def completion(self, prompt: str, image_data: list[dict] = None, args: dict = None) -> str:
         """
         ### Llamafile completion.
-        Images can be added to the prompt using "[img-<id>]" tokens, for example:
-        ```text
-        [img-1]USER: Describe this image in detail.\\nASSISTANT:
-        ```
+
         The image is sent to the model through the `image_data` argument. Images
-        must be passed as `{"id": id, "data": base64 string of image data}`
+        must be passed as `{id: data}` dicts, where each `data` is the base64 string of image data.
+        The images are then prepended to the prompt.
         """
         headers = {'Content-Type': 'application/json'}
         request = {
@@ -35,6 +33,7 @@ class LlamafileConnector(Connector):
                 request.update({arg: args[arg]})
 
         if (image_data != None and len(image_data) > 0):
+            request['prompt'] = f'[img-{image_data['id']}]{request['prompt']}'
             request.update({"image_data": image_data})
 
         response = requests.post(f'http://{self.url}:{self.port}/completion',

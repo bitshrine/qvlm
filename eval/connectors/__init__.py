@@ -1,5 +1,6 @@
 from abc import ABC
 import base64
+import re
 
 class Connector(ABC):
     """
@@ -17,6 +18,14 @@ class Connector(ABC):
         Returns the model's text output.
         """
         pass
+
+    def replace_image_data(self, prompt: str, image_data: list[dict], data_format_string: str = '{data}'):
+        """
+        Replace `[img-<id>]` elements of the prompt with
+        the appropriate image data.
+        """
+        image_data = list(map(lambda a: {"id": a['id'], "data": data_format_string.format(data=a['data'])}))
+        return re.sub(r'\[img-<(\d+)>\]', image_data[r'\g<1>'], prompt)
 
     def encode64(self, path: str) -> str:
         """
