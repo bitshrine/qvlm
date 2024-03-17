@@ -9,7 +9,7 @@ class Evaluator(ABC):
     def connect(self, connector: Connector):
         self.connector = connector
 
-    def compute(self, out_path: str):
+    def get_responses(self, out_path: str):
         pass
 
     def eval(self, answer_path: str):
