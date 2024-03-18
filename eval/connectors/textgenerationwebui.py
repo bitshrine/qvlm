@@ -47,6 +47,5 @@ class TextGenerationWebUIConnector(Connector):
                       headers = headers,
                       json = request
                       )
-        print(response)
         
         return json.loads(response.content)['choices'][-1]['message']['content']
