@@ -21,4 +21,4 @@ class VQAV2Evaluator(Evaluator):
                 for _, q in self.data.loc[self.data['image_id'] == img_id].iterrows():
                     response = self.connector.completion(f'{q["question_id"]}', image_data=[{"id": int(img_id), "data": self.connector.encode64(img_path)}])
 
-                    f_out.write(f'{{"question_id": {q['question_id']},  "response": "{response}"}},\n')
+                    f_out.write(f'{{"question_id": {q["question_id"]},  "response": "{response}"}},\n')
