@@ -7,6 +7,8 @@ datasets/*
 *.gguf
 
 !datasets/README.md
+eval/script_generators/*.py
+eval/script_generators/*.run
 scratchpad.ipynb
 llamafile
 llama.log

@@ -4,6 +4,13 @@ import requests
 from eval.connectors import Connector
 
 class TextGenerationWebUIConnector(Connector):
+    """
+    Send requests to a running `text-generation-webui` server.
+    The server must have been started with the `--api` argument.
+    Note that the multimodal extension is still bugged, so
+    the server should NOT be started with the `--no-web-ui` argument
+    as it relies on some UI code to process images.
+    """
 
     def __init__(self, url: str, port: int, prompt_format: str = '{prompt}'):
         super().__init__('textgenerationwebui', url, port)

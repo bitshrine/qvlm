@@ -2,6 +2,9 @@ from abc import ABC
 from eval.connectors import Connector
 
 class Evaluator(ABC):
+    """
+    Query the model server for answers
+    """
 
     def __init__(self):
         pass

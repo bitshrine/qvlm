@@ -6,9 +6,17 @@ from eval.evaluation import Evaluator
 from eval.connectors import Connector
 
 class VQAV2Evaluator(Evaluator):
+    """
+    Queries the model server for answers.
+    The questions are provided to the instance
+    by the `data` argument, as a DataFrame
+    with at least 3 columns equal to `question_id`, `question`, and `image_id`
+    The directory to the images is provided by the `img_dir` parameter.
+    """
 
-    def __init__(self, data: pd.DataFrame):
+    def __init__(self, data: pd.DataFrame, img_dir: str = 'datasets/VQA_V2/test2015'):
         self.data = data
+        self.img_dir = img_dir
 
     def get_responses(self, out_path: str):
         if (self.connector == None):
@@ -24,7 +32,7 @@ class VQAV2Evaluator(Evaluator):
             remaining_questions = self.data.loc[~self.data['question_id'].isin(answered_questions)]
             
             for img_id in tqdm(remaining_questions['image_id'].unique().astype(int)):
-                img_path = f'datasets/VQA_V2/test2015/COCO_test2015_{img_id:012d}.jpg'
+                img_path = f'{self.img_dir}/COCO_test2015_{img_id:012d}.jpg'
                 
                 for _, q in remaining_questions.loc[(remaining_questions['image_id'] == img_id)].iterrows():
                     try:
