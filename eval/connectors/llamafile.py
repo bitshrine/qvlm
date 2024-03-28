@@ -15,7 +15,7 @@ class LlamafileConnector(Connector):
 
         self.prompt_format = prompt_format
 
-    def completion(self, prompt: str, image_data: list[dict] = None, args: dict = None) -> str:
+    def completion(self, prompt: str, image_data: list[dict] = None, **kwargs) -> str:
         """
         ### Llamafile completion.
 
@@ -28,9 +28,9 @@ class LlamafileConnector(Connector):
             "prompt": self.prompt_format.format(prompt=prompt)
         }
 
-        if (args != None):
-            for arg in args.keys():
-                request.update({arg: args[arg]})
+        if (kwargs != None):
+            for arg in kwargs.keys():
+                request.update({arg: kwargs[arg]})
 
         if (image_data != None and len(image_data) > 0):
             request['prompt'] = f'[img-{image_data['id']}]{request['prompt']}'

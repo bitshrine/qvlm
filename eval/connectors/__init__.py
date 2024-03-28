@@ -11,7 +11,7 @@ class Connector(ABC):
         self.url = url
         self.port = port
 
-    def completion(self, data: str, image_data: list, args: dict) -> str:
+    def completion(self, data: str, image_data: list, **kwargs) -> str:
         """
         Request text completion from a model.
         Image data can be provided.

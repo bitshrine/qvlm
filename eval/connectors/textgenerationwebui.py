@@ -17,7 +17,7 @@ class TextGenerationWebUIConnector(Connector):
         self.prompt_format = prompt_format
 
 
-    def completion(self, prompt: str, image_data: list = [], args: dict = None) -> str:
+    def completion(self, prompt: str, image_data: list = [], **kwargs) -> str:
         """
         ### TextGenerationWebUI completion.
 
@@ -46,9 +46,9 @@ class TextGenerationWebUIConnector(Connector):
         for img in image_data:
             request['messages'][-1]['content'].append({"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{img['data']}"}})
 
-        if (args != None):
-            for arg in args.keys():
-                request.update({arg: args[arg]})
+        if (kwargs != None):
+            for arg in kwargs.keys():
+                request.update({arg: kwargs[arg]})
 
         response = requests.post(f'http://{self.url}:{self.port}/v1/chat/completions',
                       headers = headers,

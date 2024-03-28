@@ -22,6 +22,8 @@ class VQAV2Evaluator(Evaluator):
         if (self.connector == None):
             raise ValueError('No VLM connector provided. Call `Evaluator.connect()` to connect.')
         
+        data_type = self.img_dir.split('/')[-1]
+        
 
         with open(out_path, 'a+', 1) as f_out, open(out_path + "_ERRORS", 'a+', 1) as error_out:
             try:
@@ -32,7 +34,7 @@ class VQAV2Evaluator(Evaluator):
             remaining_questions = self.data.loc[~self.data['question_id'].isin(answered_questions)]
             
             for img_id in tqdm(remaining_questions['image_id'].unique().astype(int)):
-                img_path = f'{self.img_dir}/COCO_test2015_{img_id:012d}.jpg'
+                img_path = f'{self.img_dir}/COCO_{data_type}_{img_id:012d}.jpg'
                 
                 for _, q in remaining_questions.loc[(remaining_questions['image_id'] == img_id)].iterrows():
                     try:
@@ -40,7 +42,7 @@ class VQAV2Evaluator(Evaluator):
 
                         f_out.write(json.dumps({
                             "question_id": q["question_id"],
-                            "response": response
+                            "answer": response
                         }) + '\n')
                     except Exception as err:
                         error_out.write(json.dumps({
